@@ -1,16 +1,126 @@
+import axios from "axios";
 import type { NextPage } from "next";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import Charts from "../components/Charts";
+import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 
+const Charts = dynamic(() => import("../components/charts/Charts"), {
+  ssr: false,
+});
+
 const Home: NextPage = () => {
-  const data1 = [
-    { name: "5 min", n_adeop: 10, n_lysop: 20, n_adewt: 0, n_lyswt: 10 },
-    { name: "10 min", n_adeop: 20, n_lysop: 50, n_adewt: 40, n_lyswt: 60 },
-    { name: "10 min", n_adeop: 20, n_lysop: 50, n_adewt: 40, n_lyswt: 60 },
-    { name: "10 min", n_adeop: 20, n_lysop: 50, n_adewt: 40, n_lyswt: 60 },
-  ];
+  const [toggleRunSimulator, setToggleRunSimulator] = useState(false);
+  const [dataSSE, setDataSSE] = useState({});
+  const [finalData, setFinalData] = useState([]);
+  const [realtimeData, setRealtimeData] = useState([]);
+  const [closeSSE, setCloseSSE] = useState(false);
+  const [population, setPopulation] = useState({
+    adeop: 1,
+    lysop: 2,
+    adewt: 1,
+    lyswt: 1,
+    n_adeop: 10,
+    n_lysop: 20,
+    n_adewt: 10,
+    n_lyswt: 10,
+  });
+  const [media, setMedia] = useState({
+    glucose: 1,
+    adenine: 1,
+    lysine: 1,
+  });
+  const [run, setRun] = useState({
+    transfer_p: 0.1,
+    days: 1,
+  });
+
+  useEffect(() => {
+    const sse = new EventSource("http://127.0.0.1:8000/stream");
+
+    function handleStream(data) {
+      setDataSSE(JSON.parse(data.replaceAll(`'`, `"`)));
+    }
+
+    if (toggleRunSimulator) {
+      sse.onmessage = (e) => {
+        handleStream(e.data);
+      };
+    } else {
+      sse.close();
+    }
+
+    sse.onerror = (e) => {
+      sse.close();
+    };
+
+    if (closeSSE) {
+      sse.close();
+    }
+
+    return () => {
+      sse.close();
+    };
+  }, [closeSSE, toggleRunSimulator]);
+  useEffect(() => {
+    const payload = {
+      population,
+      media,
+      run,
+    };
+    if (toggleRunSimulator) {
+      axios
+        .post("http://localhost:8000/run", payload)
+        .then((response) => {
+          const json = response.data;
+          json.responseData.map((data, i) => (data["time"] = i));
+          setFinalData(json.responseData);
+        })
+        .then(() => setToggleRunSimulator(!toggleRunSimulator));
+    }
+  }, [toggleRunSimulator]);
+
+  /**
+   *
+   * @returns Array of Population Distribution with species names from arrays of arrays
+   */
+  const getPopulationDistribution = () => {
+    const output = [];
+    const iRef = Object.keys(population).splice(0, 4);
+    for (let i of iRef) {
+      if (population[i] > 1) {
+        for (let j = 0; j < population[i]; j++) output.push(`${i}${j + 1}`);
+      } else {
+        output.push(i);
+      }
+    }
+
+    return output;
+  };
+
+  useEffect(() => {
+    const populationDistribution = getPopulationDistribution();
+    const specs_distribution =
+      dataSSE.realtime_data && dataSSE.realtime_data.map((s) => s[0]);
+    const specs_count =
+      dataSSE.realtime_data && dataSSE.realtime_data.map((s) => s[1]);
+    const opArr = specs_distribution
+      ? specs_distribution.map((s) =>
+          s.map((i) => populationDistribution[i - 1])
+        )
+      : [];
+    const opObj = {};
+
+    for (let i = 0; i < opArr.length; i++) {
+      for (let j = 0; j < opArr[i].length; j++) {
+        opObj[opArr[i][j]] = specs_count[i][j];
+        setRealtimeData([...realtimeData, opObj]);
+      }
+    }
+    console.log("specs_distribution", specs_count, opArr);
+  }, [dataSSE]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -19,8 +129,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <Charts />
+        <Charts realtimeData={realtimeData} />
       </div>
+
+      <button onClick={() => setToggleRunSimulator(true)}>Run Simulator</button>
 
       <h1 className="text-3xl font-bold underline">Hello world!</h1>
     </div>
