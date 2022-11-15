@@ -26,7 +26,7 @@ const Home = () => {
   const [realtimeLysine, setRealtimeLysine] = useState([]);
   const [environment, setEnvironment] = useState([
     {
-      glucose: 1,
+      glucose: null,
       adenine: 1,
       lysine: 2,
     },
@@ -341,7 +341,7 @@ const GCharts = (props) => {
     >
       <Line type="monotone" dataKey="glucose" stroke="#8884d8" />
       <Line type="monotone" dataKey="adenine" stroke="#3384d8" />
-      <Line type="monotone" dataKey="lysine" stroke="#5524d8" /> */}
+      <Line type="monotone" dataKey="lysine" stroke="#5524d8" />
       <CartesianGrid stroke="#3c3c3c" strokeDasharray="5 5" />
       <XAxis />
       <YAxis />
