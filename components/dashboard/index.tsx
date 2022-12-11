@@ -1,7 +1,11 @@
 import React from "react";
+import { useSimState } from "../../store/SimProvider";
 import Range from "../range";
 
 const Dashboard = () => {
+  const { realtimeData } = useSimState();
+
+  console.log(realtimeData);
   return (
     <div className="max-w-6xl mx-auto">
       <div className="flex justify-between">

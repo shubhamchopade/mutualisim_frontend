@@ -2,7 +2,7 @@ import axios from "axios";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "../../styles/Home.module.css";
 import {
   LineChart,
@@ -12,45 +12,38 @@ import {
   YAxis,
   Tooltip,
 } from "recharts";
+import { useSimState } from "../../store/SimProvider";
 
 // const URL = "http://18.212.50.53:8080";
 const URL = "http://127.0.0.1:8000";
 
 const Home = () => {
-  const [toggleRunSimulator, setToggleRunSimulator] = useState(false);
-  const [dataSSE, setDataSSE] = useState([]);
-  const [finalData, setFinalData] = useState([]);
-  const [realtimeData, setRealtimeData] = useState([]);
-  const [realtimeGlucose, setRealtimeGlucose] = useState([]);
-  const [realtimeAdenine, setRealtimeAdenine] = useState([]);
-  const [realtimeLysine, setRealtimeLysine] = useState([]);
-  const [environment, setEnvironment] = useState([
-    {
-      glucose: null,
-      adenine: 1,
-      lysine: 2,
-    },
-  ]);
-  const [closeSSE, setCloseSSE] = useState(false);
-  const [population, setPopulation] = useState({
-    adeop: 1,
-    lysop: 1,
-    adewt: 1,
-    lyswt: 1,
-    n_adeop: 10,
-    n_lysop: 10,
-    n_adewt: 10,
-    n_lyswt: 10,
-  });
-  const [media, setMedia] = useState({
-    glucose: 2,
-    adenine: 1,
-    lysine: 1,
-  });
-  const [run, setRun] = useState({
-    transfer_p: 0.1,
-    days: 1,
-  });
+  const {
+    realtimeData,
+    setRealtimeData,
+    realtimeGlucose,
+    setRealtimeGlucose,
+    realtimeAdenine,
+    setRealtimeAdenine,
+    environment,
+    setEnvironment,
+    media,
+    setMedia,
+    realtimeLysine,
+    setRealtimeLysine,
+    toggleRunSimulator,
+    setToggleRunSimulator,
+    closeSSE,
+    setCloseSSE,
+    population,
+    setPopulation,
+    dataSSE,
+    setDataSSE,
+    finalData,
+    setFinalData,
+    run,
+    setRun,
+  } = useSimState();
 
   useEffect(() => {
     const sse = new EventSource(`${URL}/stream`);
