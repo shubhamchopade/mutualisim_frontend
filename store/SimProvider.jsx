@@ -24,12 +24,13 @@ export const SimProvider = ({ children }) => {
   const [realtimeLysine, setRealtimeLysine] = useState([]);
   const [environment, setEnvironment] = useState([
     {
-      glucose: null,
+      glucose: 1,
       adenine: 1,
-      lysine: 2,
+      lysine: 1,
     },
   ]);
   const [closeSSE, setCloseSSE] = useState(false);
+
   const [population, setPopulation] = useState({
     adeop: 1,
     lysop: 1,
@@ -41,13 +42,23 @@ export const SimProvider = ({ children }) => {
     n_lyswt: 10,
   });
   const [media, setMedia] = useState({
-    glucose: 2,
+    glucose: 1,
     adenine: 1,
     lysine: 1,
   });
+
+  const [adenineProducer, setAdenineProducer] = useState(10);
+  const [adenineCheater, setAdenineCheater] = useState(10);
+  const [lysineProducer, setLysineProducer] = useState(10);
+  const [lysineCheater, setLysineCheater] = useState(10);
+
+  const [glucose, setGlucose] = useState(1);
+  const [adenine, setAdenine] = useState(1);
+  const [lysine, setLysine] = useState(1);
+
   const [run, setRun] = useState({
     transfer_p: 0.1,
-    days: 1,
+    days: 3,
   });
 
   const providerValue = {
@@ -75,6 +86,20 @@ export const SimProvider = ({ children }) => {
     setFinalData,
     run,
     setRun,
+    glucose,
+    setGlucose,
+    adenine,
+    setAdenine,
+    lysine,
+    setLysine,
+    adenineProducer,
+    setAdenineProducer,
+    adenineCheater,
+    setAdenineCheater,
+    lysineProducer,
+    setLysineProducer,
+    lysineCheater,
+    setLysineCheater,
   };
 
   return (

@@ -1,12 +1,8 @@
 import React from "react";
 import { useState } from "react";
 
-interface Props {
-  name: string;
-}
-
-const Range = (props: Props) => {
-  const [value, setValue] = useState(0);
+const Range = (props) => {
+  const { value, setValue, min, max, step, color } = props;
   return (
     <div className="flex justify-between my-2">
       <label className="label-text mr-3" htmlFor={props.name}>
@@ -16,21 +12,23 @@ const Range = (props: Props) => {
         <input
           name={props.name}
           type="range"
-          min="0"
-          max="100"
+          min={min}
+          max={max}
           value={value}
-          className="range range-primary"
-          step="25"
+          className={`range range-${color}`}
+          step={step}
           onChange={(e) => setValue(Number(e.target.value))}
         />
-        <div className="w-full flex justify-between text-xs px-2">
+
+        {/* <div className="w-full flex justify-between text-xs px-2">
           <span>|</span>
           <span>|</span>
           <span>|</span>
           <span>|</span>
           <span>|</span>
-        </div>
+        </div> */}
       </div>
+      <p className="ml-3">{value}</p>
     </div>
   );
 };
