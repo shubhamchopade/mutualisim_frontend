@@ -4,6 +4,7 @@ import React from "react";
 import Dashboard from "../components/dashboard";
 import Range from "../components/range";
 import Charts from "../components/charts";
+import Landing from "./landing";
 
 // TODO
 // useContext for state management
@@ -12,8 +13,7 @@ import Charts from "../components/charts";
 const Home: NextPage = () => {
   return (
     <div>
-      <Dashboard />
-      <Charts />
+      <Landing />
     </div>
   );
 };
