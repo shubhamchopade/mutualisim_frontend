@@ -14,7 +14,7 @@ import {
 } from "recharts";
 import { useSimState } from "../../store/SimProvider";
 
-// const URL = "http://18.212.50.53:8080";
+// const URL = "http://18.212.50.53:8000";
 const URL = "http://127.0.0.1:8000";
 
 const Home = () => {
