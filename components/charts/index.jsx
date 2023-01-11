@@ -297,6 +297,11 @@ const Home = () => {
         >
           {toggleRunSimulator ? "Running..." : "Run Simulator"}
         </button>
+        <p className="mx-auto max-w-4xl my-4">
+          The graph below will plot the changing media and population sizes of
+          strains in the community. You will also be able to download at table
+          with the data
+        </p>
         <Charts realtimeData={realtimeData} />
         <GCharts environment={environment} />
       </div>
