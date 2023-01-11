@@ -5,7 +5,7 @@ const Range = (props) => {
   const { value, setValue, min, max, step, color } = props;
   return (
     <div className="flex justify-between my-2">
-      <label className="label-text mr-3" htmlFor={props.name}>
+      <label className="label-text mr-3 w-64" htmlFor={props.name}>
         {props.name}
       </label>
       <div>
@@ -15,7 +15,7 @@ const Range = (props) => {
           min={min}
           max={max}
           value={value}
-          className={`range range-${color}`}
+          className={`range range-${color} w-64`}
           step={step}
           onChange={(e) => setValue(Number(e.target.value))}
         />

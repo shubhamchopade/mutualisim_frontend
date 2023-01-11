@@ -21,21 +21,21 @@ const Dashboard = () => {
   } = useSimState();
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       <div className="flex justify-between">
-        <div>
-          <div className="flex p-4">
-            <div className="w-40">
-              <p>MEDIA</p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nisi
-                curabitur at augue nibh lacus.
+        <div className="max-w-xl">
+          <div className="p-4">
+            <div className="">
+              <p className="font-bold">MEDIA</p>
+              <p className="">
+                Input initial starting values for nutrients in the media and the
+                population sizes of the community
               </p>
             </div>
 
-            <div className="w-84 p-4">
+            <div className="w-84 pt-8">
               <Range
-                name="glucose"
+                name="(provides food source) glucose"
                 value={glucose}
                 setValue={setGlucose}
                 min={0}
@@ -44,7 +44,7 @@ const Dashboard = () => {
                 color="primary"
               />
               <Range
-                name="adenine"
+                name="(limiting nutrient) adenine"
                 value={adenine}
                 setValue={setAdenine}
                 min={0}
@@ -53,7 +53,7 @@ const Dashboard = () => {
                 color="secondary"
               />
               <Range
-                name="lysine"
+                name="limiting nutrient) lysine"
                 value={lysine}
                 setValue={setLysine}
                 min={0}
@@ -64,18 +64,15 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="flex p-4">
-          <div className="w-40">
-            <p>POPULATION</p>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nisi
-              curabitur at augue nibh lacus.
-            </p>
+        <div className="p-4 ml-16 max-w-xl">
+          <div className="">
+            <p className="font-bold">POPULATION</p>
+            <p className="">Initial Population Size of Strains</p>
           </div>
 
-          <div className="p-4 w-84">
+          <div className="pt-4 w-76">
             <Range
-              name="Adenine Producer"
+              name="Adenine Overproducer"
               value={adenineProducer}
               setValue={setAdenineProducer}
               min={0}
@@ -84,7 +81,7 @@ const Dashboard = () => {
               color="info"
             />
             <Range
-              name="Adenine Cheater"
+              name="Cheater that takes adenine"
               value={adenineCheater}
               setValue={setAdenineCheater}
               min={0}
@@ -93,7 +90,7 @@ const Dashboard = () => {
               color="success"
             />
             <Range
-              name="Lysine Producer"
+              name="Lysine Overproducer"
               value={lysineProducer}
               setValue={setLysineProducer}
               min={0}
@@ -102,7 +99,7 @@ const Dashboard = () => {
               color="error"
             />
             <Range
-              name="Lysine Cheater"
+              name="Cheater that takes lysine"
               value={lysineCheater}
               setValue={setLysineCheater}
               min={0}
