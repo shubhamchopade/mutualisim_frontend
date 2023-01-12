@@ -66,7 +66,8 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const sse = new EventSource(`${URL}/stream`);
+    let sessionid = sessionStorage.getItem("sessionid");
+    const sse = new EventSource(`${URL}/${sessionid}/stream`);
 
     function handleStream(data) {
       try {
@@ -101,7 +102,8 @@ const Home = () => {
   }, [closeSSE, toggleRunSimulator]);
 
   useEffect(() => {
-    const sse = new EventSource(`${URL}/glucose`);
+    let sessionid = sessionStorage.getItem("sessionid");
+    const sse = new EventSource(`${URL}/${sessionid}/glucose`);
 
     function handleStream(data) {
       try {
@@ -137,7 +139,8 @@ const Home = () => {
   }, [closeSSE, toggleRunSimulator]);
 
   useEffect(() => {
-    const sse = new EventSource(`${URL}/adenine`);
+    let sessionid = sessionStorage.getItem("sessionid");
+    const sse = new EventSource(`${URL}/${sessionid}/adenine`);
 
     function handleStream(data) {
       try {
@@ -173,7 +176,8 @@ const Home = () => {
   }, [closeSSE, toggleRunSimulator]);
 
   useEffect(() => {
-    const sse = new EventSource(`${URL}/lysine`);
+    let sessionid = sessionStorage.getItem("sessionid");
+    const sse = new EventSource(`${URL}/${sessionid}/lysine`);
 
     function handleStream(data) {
       try {
@@ -233,9 +237,10 @@ const Home = () => {
       media,
       run,
     };
+    let sessionid = sessionStorage.getItem("sessionid");
     if (toggleRunSimulator) {
       axios
-        .post(`${URL}/run`, payload)
+        .post(`${URL}/run/${sessionid}`, payload)
         .then((response) => {
           const json = response.data;
           json.responseData.map((data, i) => (data["time"] = i));
@@ -322,7 +327,7 @@ const Charts = (props) => {
       className="mx-auto mt-4"
     >
       {dataKey.map((d) => (
-        <Line type="basis" dataKey={d} stroke="#8884d8" />
+        <Line type="basis" dataKey={d} stroke="#8884d8" dot={false} />
       ))}
       <CartesianGrid stroke="#3c3c3c" strokeDasharray="5 5" />
       <XAxis dataKey="time" />
@@ -344,9 +349,9 @@ const GCharts = (props) => {
       margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
       className="mx-auto"
     >
-      <Line type="monotone" dataKey="glucose" stroke="#8884d8" />
-      <Line type="monotone" dataKey="adenine" stroke="#3384d8" />
-      <Line type="monotone" dataKey="lysine" stroke="#5524d8" />
+      <Line type="monotone" dataKey="glucose" stroke="#8884d8" dot={false} />
+      <Line type="monotone" dataKey="adenine" stroke="#3384d8" dot={false} />
+      <Line type="monotone" dataKey="lysine" stroke="#5524d8" dot={false} />
       <CartesianGrid stroke="#3c3c3c" strokeDasharray="5 5" />
       <XAxis />
       <YAxis />
