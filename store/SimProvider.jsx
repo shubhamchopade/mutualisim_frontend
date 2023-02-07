@@ -14,6 +14,12 @@ export const useSimState = () => {
   return state;
 };
 
+const env = process.env.NODE_ENV || "development";
+export const URL =
+  env == "development"
+    ? process.env.NEXT_PUBLIC_DEV_API
+    : process.env.NEXT_PUBLIC_PROD_API;
+
 export const SimProvider = ({ children }) => {
   const [toggleRunSimulator, setToggleRunSimulator] = useState(false);
   const [dataSSE, setDataSSE] = useState([]);
