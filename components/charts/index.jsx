@@ -4,20 +4,17 @@ import Head from "next/head";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import styles from "../../styles/Home.module.css";
-import {
-  LineChart,
-  Line,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-} from "recharts";
 import { useSimState } from "../../store/SimProvider";
+import { Charts, GCharts } from "./Charts";
 
-const URL = "http://18.212.50.53:8080";
-// const URL = "http://127.0.0.1:8000";
+const env = process.env.NODE_ENV || "development";
+const URL =
+  env == "development"
+    ? process.env.NEXT_PUBLIC_DEV_API
+    : process.env.NEXT_PUBLIC_PROD_API;
 
 const Home = () => {
+  console.log(URL);
   const {
     realtimeData,
     setRealtimeData,
@@ -315,47 +312,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const Charts = (props) => {
-  const dataKey = Object.keys(props.realtimeData[0] || []);
-  return (
-    <LineChart
-      width={1000}
-      height={200}
-      data={props.realtimeData}
-      margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-      className="mx-auto mt-4"
-    >
-      {dataKey.map((d) => (
-        <Line type="basis" dataKey={d} stroke="#8884d8" dot={false} />
-      ))}
-      <CartesianGrid stroke="#3c3c3c" strokeDasharray="5 5" />
-      <XAxis dataKey="time" />
-      <YAxis domain={[0, 700]} />
-      <Tooltip />
-    </LineChart>
-  );
-};
-
-const GCharts = (props) => {
-  const dataKey = props.environment || [];
-  // console.log(props.realtimeData);
-
-  return (
-    <LineChart
-      width={1000}
-      height={200}
-      data={dataKey}
-      margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-      className="mx-auto"
-    >
-      <Line type="monotone" dataKey="glucose" stroke="#8884d8" dot={false} />
-      <Line type="monotone" dataKey="adenine" stroke="#3384d8" dot={false} />
-      <Line type="monotone" dataKey="lysine" stroke="#5524d8" dot={false} />
-      <CartesianGrid stroke="#3c3c3c" strokeDasharray="5 5" />
-      <XAxis />
-      <YAxis />
-      <Tooltip />
-    </LineChart>
-  );
-};
