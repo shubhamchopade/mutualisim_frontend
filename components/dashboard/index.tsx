@@ -24,47 +24,9 @@ const Dashboard = () => {
     <div className="max-w-7xl mx-auto">
       <div className="flex justify-between">
         <div className="max-w-xl">
-          <div className="p-4">
-            <div className="">
-              <p className="font-bold">MEDIA</p>
-              <p className="">
-                Input initial starting values for nutrients in the media and the
-                population sizes of the community
-              </p>
-            </div>
-
-            <div className="w-84 pt-8">
-              <Range
-                name="(provides food source) glucose"
-                value={glucose}
-                setValue={setGlucose}
-                min={0}
-                max={3}
-                step={1}
-                color="primary"
-              />
-              <Range
-                name="(limiting nutrient) adenine"
-                value={adenine}
-                setValue={setAdenine}
-                min={0}
-                max={3}
-                step={1}
-                color="secondary"
-              />
-              <Range
-                name="limiting nutrient) lysine"
-                value={lysine}
-                setValue={setLysine}
-                min={0}
-                max={3}
-                step={1}
-                color="accent"
-              />
-            </div>
-          </div>
+          <div className="p-4"></div>
         </div>
-        <div className="p-4 ml-16 max-w-xl">
+        {/* <div className="p-4 ml-16 max-w-xl">
           <div className="">
             <p className="font-bold">POPULATION</p>
             <p className="">Initial Population Size of Strains</p>
@@ -108,7 +70,7 @@ const Dashboard = () => {
               color="warning"
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

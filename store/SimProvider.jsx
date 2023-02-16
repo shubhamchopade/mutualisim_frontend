@@ -42,10 +42,10 @@ export const SimProvider = ({ children }) => {
     lysop: 1,
     adewt: 1,
     lyswt: 1,
-    n_adeop: 10,
-    n_lysop: 10,
-    n_adewt: 10,
-    n_lyswt: 10,
+    n_adeop: 0,
+    n_lysop: 0,
+    n_adewt: 0,
+    n_lyswt: 0,
   });
   const [media, setMedia] = useState({
     glucose: 1,
@@ -54,18 +54,20 @@ export const SimProvider = ({ children }) => {
   });
 
   const [adenineProducer, setAdenineProducer] = useState(10);
-  const [adenineCheater, setAdenineCheater] = useState(10);
+  const [adenineCheater, setAdenineCheater] = useState(20);
   const [lysineProducer, setLysineProducer] = useState(10);
-  const [lysineCheater, setLysineCheater] = useState(10);
+  const [lysineCheater, setLysineCheater] = useState(20);
 
   const [glucose, setGlucose] = useState(1);
   const [adenine, setAdenine] = useState(1);
   const [lysine, setLysine] = useState(1);
 
   const [run, setRun] = useState({
-    transfer_p: 0.1,
+    transfer_p: 0.5,
     days: 3,
   });
+
+  const [navToggled, setNavToggled] = useState(false);
 
   const providerValue = {
     realtimeData,
@@ -106,6 +108,8 @@ export const SimProvider = ({ children }) => {
     setLysineProducer,
     lysineCheater,
     setLysineCheater,
+    navToggled,
+    setNavToggled,
   };
 
   return (

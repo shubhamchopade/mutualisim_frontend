@@ -1,34 +1,82 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { useSimState } from "../../store/SimProvider";
+import AdenineProducer from "../dashboard/AdenineProducer";
+import AdenineCheater from "../dashboard/AdenineCheater";
+import LysineProducer from "../dashboard/LysineProducer";
+import LysineCheater from "../dashboard/LysineCheater";
+import Media from "../dashboard/Media";
 
 const Navbar = () => {
+  const { navToggled, setNavToggled } = useSimState();
+
   return (
-    <div className="navbar bg-base-100">
-      <div className="flex-1">
-        <Link href={"/"}>
-          <a className="btn btn-ghost normal-case text-xl">
-            Mutualism Simulator
-          </a>
-        </Link>
-      </div>
-      <div className="flex-none">
-        <button className="btn btn-square btn-ghost">
+    <nav
+      className={`flex flex-col h-screen bg-gray-800 text-white transition-all ${
+        navToggled ? "w-44" : "w-80"
+      }`}
+    >
+      <div className="px-4 py-6 flex justify-between items-center">
+        <h3 className="text-lg font-medium">Mutualism Simulator</h3>
+
+        <label className="btn btn-circle swap swap-rotate">
+          <input onClick={() => setNavToggled(!navToggled)} type="checkbox" />
+
           <svg
+            className="swap-on fill-current"
             xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            className="inline-block w-5 h-5 stroke-current"
+            width="32"
+            height="32"
+            viewBox="0 0 512 512"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-            ></path>
+            <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
           </svg>
-        </button>
+
+          <svg
+            className="swap-off fill-current"
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 512 512"
+          >
+            <polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
+          </svg>
+        </label>
       </div>
-    </div>
+      <div className={`${navToggled ? "px-4" : "px-1"}`}>
+        <ul className="space-y-6">
+          <li className={`${!navToggled && "p-2"}`}>
+            <div className={`${!navToggled && "p-4"}`}>
+              <div className={``}>
+                <p className="font-bold">POPULATION</p>
+                <p className={`${navToggled && "hidden"}`}>
+                  Initial Population Size of Strains
+                </p>
+              </div>
+
+              <div className="pt-4 w-76">
+                <AdenineProducer />
+                <AdenineCheater />
+                <LysineProducer />
+                <LysineCheater />
+              </div>
+            </div>
+          </li>
+          <li className={`${!navToggled && "p-2"}`}>
+            <div className={`${!navToggled && "p-4"}`}>
+              <div className={``}>
+                <p className="font-bold">MEDIA</p>
+                <p className={`${navToggled && "hidden"}`}>
+                  Input initial starting values for nutrients in the media and
+                  the population sizes of the community
+                </p>
+              </div>
+              <Media />
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
   );
 };
 

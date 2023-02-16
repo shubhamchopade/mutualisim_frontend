@@ -1,34 +1,32 @@
 import React from "react";
 import { useState } from "react";
+import { useSimState } from "../../store/SimProvider";
 
 const Range = (props) => {
   const { value, setValue, min, max, step, color } = props;
+  const { navToggled } = useSimState();
+  useSimState();
   return (
-    <div className="flex justify-between my-2">
-      <label className="label-text mr-3 w-64" htmlFor={props.name}>
-        {props.name}
-      </label>
-      <div>
+    <div className="flex justify-between my-2 ml-2 max-w-xl">
+      <div className={`${navToggled ? "w-24" : "w-44"}`}>
+        <label
+          className={`label-text ${navToggled ? "w-24" : "w-36"}`}
+          htmlFor={props.name}
+        >
+          {props.name}
+        </label>
         <input
           name={props.name}
           type="range"
           min={min}
           max={max}
           value={value}
-          className={`range range-${color} w-64`}
+          className={`range range-${color} w-32 ${navToggled && "hidden"}`}
           step={step}
           onChange={(e) => setValue(Number(e.target.value))}
         />
-
-        {/* <div className="w-full flex justify-between text-xs px-2">
-          <span>|</span>
-          <span>|</span>
-          <span>|</span>
-          <span>|</span>
-          <span>|</span>
-        </div> */}
       </div>
-      <p className="ml-3">{value}</p>
+      <p className="ml-3 w-4">{value}</p>
     </div>
   );
 };
