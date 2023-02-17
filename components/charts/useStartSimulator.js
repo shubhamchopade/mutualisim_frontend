@@ -87,136 +87,6 @@ function useStartSimulator(duration) {
     }, [closeSSE, toggleRunSimulator]);
 
     useEffect(() => {
-        let sessionid = sessionStorage.getItem("sessionid");
-        const sse = new EventSource(`${URL}/${sessionid}/glucose`);
-
-        function handleStream(data) {
-            try {
-                const parsedJSON = JSON.parse(data.replaceAll(`'`, `"`));
-                // console.log("glucose >>", parsedJSON);
-                if (parsedJSON.length !== 0) {
-                    setRealtimeGlucose(parsedJSON);
-                }
-            } catch {
-                console.log("glucose >> EMPTY RESPONSE");
-            }
-        }
-
-        if (toggleRunSimulator) {
-            sse.onmessage = (e) => {
-                handleStream(e.data);
-            };
-        } else {
-            sse.close();
-        }
-
-        sse.onerror = (e) => {
-            sse.close();
-        };
-
-        if (closeSSE) {
-            sse.close();
-        }
-
-        return () => {
-            sse.close();
-        };
-    }, [closeSSE, toggleRunSimulator]);
-
-    useEffect(() => {
-        let sessionid = sessionStorage.getItem("sessionid");
-        const sse = new EventSource(`${URL}/${sessionid}/adenine`);
-
-        function handleStream(data) {
-            try {
-                const parsedJSON = JSON.parse(data.replaceAll(`'`, `"`));
-                // console.log("adenine >>", parsedJSON);
-                if (parsedJSON.length !== 0) {
-                    setRealtimeAdenine(parsedJSON);
-                }
-            } catch {
-                console.log("adenine >> EMPTY RESPONSE");
-            }
-        }
-
-        if (toggleRunSimulator) {
-            sse.onmessage = (e) => {
-                handleStream(e.data);
-            };
-        } else {
-            sse.close();
-        }
-
-        sse.onerror = (e) => {
-            sse.close();
-        };
-
-        if (closeSSE) {
-            sse.close();
-        }
-
-        return () => {
-            sse.close();
-        };
-    }, [closeSSE, toggleRunSimulator]);
-
-    useEffect(() => {
-        let sessionid = sessionStorage.getItem("sessionid");
-        const sse = new EventSource(`${URL}/${sessionid}/lysine`);
-
-        function handleStream(data) {
-            try {
-                const parsedJSON = JSON.parse(data.replaceAll(`'`, `"`));
-                // console.log("lysine >>", parsedJSON);
-                if (parsedJSON.length > 0) {
-                    setRealtimeLysine(parsedJSON);
-                }
-            } catch {
-                console.log("lysine >> EMPTY RESPONSE");
-            }
-        }
-
-        if (toggleRunSimulator) {
-            sse.onmessage = (e) => {
-                handleStream(e.data);
-            };
-        } else {
-            sse.close();
-        }
-
-        sse.onerror = (e) => {
-            sse.close();
-        };
-
-        if (closeSSE) {
-            sse.close();
-        }
-
-        return () => {
-            sse.close();
-        };
-    }, [closeSSE, toggleRunSimulator]);
-
-    useEffect(() => {
-        const minLen = Math.min(
-            realtimeAdenine.length,
-            realtimeGlucose.length,
-            realtimeLysine.length
-        );
-
-        for (let i = 0; i < minLen; i++) {
-            setEnvironment([
-                ...environment,
-                {
-                    glucose: realtimeGlucose[i],
-                    adenine: realtimeAdenine[i],
-                    lysine: realtimeLysine[i],
-                },
-            ]);
-        }
-    }, [realtimeAdenine, realtimeLysine, realtimeGlucose]);
-
-    useEffect(() => {
         const payload = {
             population,
             media,
@@ -255,14 +125,31 @@ function useStartSimulator(duration) {
 
     useEffect(() => {
         const populationDistribution = getPopulationDistribution();
-        const specs_distribution = dataSSE && dataSSE.map((s) => s[0]);
-        const specs_count = dataSSE && dataSSE.map((s) => s[1]);
+        const specs_distribution = dataSSE && dataSSE["population"] && dataSSE["population"].map((s) => s[0]);
+        const specs_count = dataSSE && dataSSE["population"] && dataSSE["population"].map((s) => s[1]);
         const opArr = specs_distribution
             ? specs_distribution.map((s) =>
                 s.map((i) => populationDistribution[i - 1])
             )
             : [];
         const opObj = {};
+
+        setRealtimeAdenine(dataSSE && dataSSE["adenine"])
+        setRealtimeLysine(dataSSE && dataSSE["lysine"])
+        setRealtimeGlucose(dataSSE && dataSSE["glucose"])
+        if (realtimeAdenine) {
+            for (let i = 0; i < realtimeAdenine.length; i++) {
+                setEnvironment([
+                    ...environment,
+                    {
+                        glucose: realtimeGlucose[i],
+                        adenine: realtimeAdenine[i],
+                        lysine: realtimeLysine[i],
+                    },
+                ]);
+            }
+        }
+
 
         for (let i = 0; i < opArr.length; i++) {
             for (let j = 0; j < opArr[i].length; j++) {
