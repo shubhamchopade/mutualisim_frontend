@@ -7,27 +7,28 @@ import {
   SPECIES_RANGE_STEP,
 } from "./constants";
 const LysineProducer = () => {
-  const { lysineProducer, setLysineProducer, navToggled } = useSimState();
+  const { lysineProducer, setLysineProducer, navToggled, species, setSpecies } =
+    useSimState();
   return (
     <div className="flex items-center justify-between  max-w-sm">
       <div className={`dropdown dropdown-hover ${navToggled && "hidden"}`}>
         <label tabIndex={0} className="btn m-1">
-          1
+          {species.lysop}
         </label>
         <ul
           tabIndex={0}
           className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
         >
-          <li>
+          <li onClick={() => setSpecies({ ...species, lysop: 1 })}>
             <a>1</a>
           </li>
-          <li>
+          <li onClick={() => setSpecies({ ...species, lysop: 2 })}>
             <a>2</a>
           </li>
-          <li>
+          <li onClick={() => setSpecies({ ...species, lysop: 3 })}>
             <a>3</a>
           </li>
-          <li>
+          <li onClick={() => setSpecies({ ...species, lysop: 4 })}>
             <a>4</a>
           </li>
         </ul>

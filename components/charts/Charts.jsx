@@ -9,6 +9,9 @@ import {
 } from "recharts";
 
 export const Charts = (props) => {
+  const styles = ["color: green", "background: yellow"].join(";");
+
+  console.log("%c%s", styles, "charts", props.realtimeData[0]);
   const dataKey = Object.keys(props.realtimeData[0] || []);
   return (
     <ResponsiveContainer width="99%" aspect={2}>

@@ -37,26 +37,17 @@ export const SimProvider = ({ children }) => {
   ]);
   const [closeSSE, setCloseSSE] = useState(false);
 
-  const [population, setPopulation] = useState({
-    adeop: 1,
-    lysop: 1,
-    adewt: 1,
-    lyswt: 1,
-    n_adeop: 0,
-    n_lysop: 0,
-    n_adewt: 0,
-    n_lyswt: 0,
-  });
-  const [media, setMedia] = useState({
-    glucose: 1,
-    adenine: 1,
-    lysine: 1,
-  });
-
   const [adenineProducer, setAdenineProducer] = useState(10);
   const [adenineCheater, setAdenineCheater] = useState(20);
   const [lysineProducer, setLysineProducer] = useState(10);
   const [lysineCheater, setLysineCheater] = useState(20);
+
+  const [species, setSpecies] = useState({
+    adeop: 2,
+    adewt: 2,
+    lysop: 2,
+    lyswt: 2,
+  });
 
   const [glucose, setGlucose] = useState(1);
   const [adenine, setAdenine] = useState(1);
@@ -78,16 +69,12 @@ export const SimProvider = ({ children }) => {
     setRealtimeAdenine,
     environment,
     setEnvironment,
-    media,
-    setMedia,
     realtimeLysine,
     setRealtimeLysine,
     toggleRunSimulator,
     setToggleRunSimulator,
     closeSSE,
     setCloseSSE,
-    population,
-    setPopulation,
     dataSSE,
     setDataSSE,
     finalData,
@@ -110,6 +97,8 @@ export const SimProvider = ({ children }) => {
     setLysineCheater,
     navToggled,
     setNavToggled,
+    species,
+    setSpecies,
   };
 
   return (

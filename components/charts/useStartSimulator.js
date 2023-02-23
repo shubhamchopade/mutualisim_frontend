@@ -31,6 +31,7 @@ function useStartSimulator(duration) {
         adenineCheater,
         lysineProducer,
         lysineCheater,
+        species
     } = useSimState();
 
     const media = {
@@ -40,10 +41,10 @@ function useStartSimulator(duration) {
     };
 
     const population = {
-        adeop: 1,
-        lysop: 1,
-        adewt: 1,
-        lyswt: 1,
+        adeop: species.adeop,
+        lysop: species.lysop,
+        adewt: species.adewt,
+        lyswt: species.lyswt,
         n_adeop: adenineProducer,
         n_lysop: lysineProducer,
         n_adewt: adenineCheater,
