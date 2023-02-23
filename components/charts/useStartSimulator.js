@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { URL, useSimState } from "../../store/SimProvider";
+import { TRANSFER_P_RATE } from "../dashboard/constants";
 
 
 function useStartSimulator(duration) {
@@ -31,7 +32,8 @@ function useStartSimulator(duration) {
         adenineCheater,
         lysineProducer,
         lysineCheater,
-        species
+        species,
+        days, setDays
     } = useSimState();
 
     const media = {
@@ -91,7 +93,7 @@ function useStartSimulator(duration) {
         const payload = {
             population,
             media,
-            run,
+            run: { "days": days, "transfer_p": TRANSFER_P_RATE },
         };
         let sessionid = sessionStorage.getItem("sessionid");
         if (toggleRunSimulator) {

@@ -53,10 +53,7 @@ export const SimProvider = ({ children }) => {
   const [adenine, setAdenine] = useState(1);
   const [lysine, setLysine] = useState(1);
 
-  const [run, setRun] = useState({
-    transfer_p: 0.5,
-    days: 3,
-  });
+  const [days, setDays] = useState(1);
 
   const [navToggled, setNavToggled] = useState(false);
 
@@ -79,8 +76,6 @@ export const SimProvider = ({ children }) => {
     setDataSSE,
     finalData,
     setFinalData,
-    run,
-    setRun,
     glucose,
     setGlucose,
     adenine,
@@ -99,6 +94,8 @@ export const SimProvider = ({ children }) => {
     setNavToggled,
     species,
     setSpecies,
+    days,
+    setDays,
   };
 
   return (

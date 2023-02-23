@@ -6,10 +6,11 @@ import AdenineCheater from "../dashboard/AdenineCheater";
 import LysineProducer from "../dashboard/LysineProducer";
 import LysineCheater from "../dashboard/LysineCheater";
 import Media from "../dashboard/Media";
+import Range from "../range";
 
 const Navbar = () => {
-  const { navToggled, setNavToggled } = useSimState();
-
+  const { navToggled, setNavToggled, run, days, setDays } = useSimState();
+  console.log(run);
   return (
     <nav
       className={`flex flex-col h-screen bg-gray-800 text-white transition-all ${
@@ -44,6 +45,14 @@ const Navbar = () => {
         </label>
       </div>
       <div className={`${navToggled ? "px-4" : "px-1"}`}>
+        <Range
+          name="Days"
+          value={days}
+          setValue={setDays}
+          min={1}
+          max={5}
+          step={1}
+        />
         <ul className="space-y-6">
           <li className={`${!navToggled && "p-2"}`}>
             <div className={`${!navToggled && "p-4"}`}>
