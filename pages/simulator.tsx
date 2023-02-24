@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Dashboard from "../components/dashboard";
 import Charts from "../components/charts";
 import { v4 as uuidv4 } from "uuid";
 import Navbar from "../components/nav";
@@ -16,7 +15,6 @@ const Simulator = () => {
   return (
     <div className="flex">
       <Navbar />
-      <Dashboard />
       <Charts />
     </div>
   );

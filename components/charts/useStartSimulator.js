@@ -3,28 +3,15 @@ import React, { useEffect, useState } from "react";
 import { URL, useSimState } from "../../store/SimProvider";
 import { TRANSFER_P_RATE } from "../dashboard/constants";
 
-
-function useStartSimulator(duration) {
+function useStartSimulator() {
     const [toggleRunSimulator, setToggleRunSimulator] = useState(false)
+    const [realtimeData, setRealtimeData] = useState([]);
     const {
-        realtimeData,
-        setRealtimeData,
-        realtimeGlucose,
-        setRealtimeGlucose,
-        realtimeAdenine,
-        setRealtimeAdenine,
         environment,
         setEnvironment,
-        realtimeLysine,
-        setRealtimeLysine,
         closeSSE,
-        setCloseSSE,
         dataSSE,
         setDataSSE,
-        finalData,
-        setFinalData,
-        run,
-        setRun,
         glucose,
         adenine,
         lysine,
@@ -33,8 +20,11 @@ function useStartSimulator(duration) {
         lysineProducer,
         lysineCheater,
         species,
-        days, setDays
+        days, realtimeCount, setRealtimeCount
     } = useSimState();
+
+    const initPop = new Array((days * 7) - 3);
+    const [initialPopulation, setInitialPopulation] = useState(initPop);
 
     const media = {
         glucose,
@@ -54,6 +44,12 @@ function useStartSimulator(duration) {
     };
 
     useEffect(() => {
+        const initPop = new Array((days * 7) - 3);
+        setInitialPopulation(initPop);
+    }, [days]);
+
+
+    useEffect(() => {
         let sessionid = sessionStorage.getItem("sessionid");
         const sse = new EventSource(`${URL}/${sessionid}/stream`);
 
@@ -70,6 +66,7 @@ function useStartSimulator(duration) {
 
         if (toggleRunSimulator) {
             sse.onmessage = (e) => {
+                setRealtimeCount(prev => prev + 1)
                 handleStream(e.data);
             };
         } else {
@@ -89,6 +86,7 @@ function useStartSimulator(duration) {
         };
     }, [closeSSE, toggleRunSimulator]);
 
+    // API call to run simulator
     useEffect(() => {
         const payload = {
             population,
@@ -99,11 +97,6 @@ function useStartSimulator(duration) {
         if (toggleRunSimulator) {
             axios
                 .post(`${URL}/run/${sessionid}`, payload)
-                .then((response) => {
-                    const json = response.data;
-                    json.responseData.map((data, i) => (data["time"] = i));
-                    setFinalData(json.responseData);
-                })
                 .then(() => setToggleRunSimulator(!toggleRunSimulator));
         }
     }, [toggleRunSimulator]);
@@ -115,6 +108,7 @@ function useStartSimulator(duration) {
     const getPopulationDistribution = () => {
         const output = [];
         const iRef = Object.keys(population).splice(0, 4);
+        console.log(realtimeData.length)
         for (let i of iRef) {
             if (population[i] > 1) {
                 for (let j = 0; j < population[i]; j++) output.push(`${i}${j + 1}`);
@@ -122,7 +116,6 @@ function useStartSimulator(duration) {
                 output.push(i);
             }
         }
-
         return output;
     };
 
@@ -137,20 +130,10 @@ function useStartSimulator(duration) {
             : [];
         const opObj = {};
 
-        setRealtimeAdenine(dataSSE && dataSSE["adenine"])
-        setRealtimeLysine(dataSSE && dataSSE["lysine"])
-        setRealtimeGlucose(dataSSE && dataSSE["glucose"])
-        if (realtimeAdenine) {
-            for (let i = 0; i < realtimeAdenine.length; i++) {
-                setEnvironment([
-                    ...environment,
-                    {
-                        glucose: realtimeGlucose[i],
-                        adenine: realtimeAdenine[i],
-                        lysine: realtimeLysine[i],
-                    },
-                ]);
-            }
+
+        const initialDistribution = {};
+        for (let j = 0; j < populationDistribution.length; j++) {
+            initialDistribution[populationDistribution[j]] = 1;
         }
 
 
@@ -160,9 +143,39 @@ function useStartSimulator(duration) {
                 setRealtimeData([...realtimeData, opObj]);
             }
         }
-    }, [dataSSE]);
 
-    return { realtimeData, environment, toggleRunSimulator, setToggleRunSimulator }
+
+        if (realtimeCount === 0) {
+            setInitialPopulation(prev => prev.fill(initialDistribution))
+        } else {
+            if (opObj['adeop1'] == 1 || opObj['lysop1'] == 1 || opObj['adeop'] == 1) {
+                setInitialPopulation(prev => prev.map((p, i) => i === realtimeCount ? realtimeData[realtimeData.length - 2] : p))
+            } else {
+
+                setInitialPopulation(prev => prev.map((p, i) => i === realtimeCount ? opObj : p))
+            }
+        }
+
+
+
+        if (dataSSE["adenine"]) {
+            for (let i = 0; i < dataSSE["adenine"].length; i++) {
+                setEnvironment([
+                    ...environment,
+                    {
+                        glucose: dataSSE["glucose"][i],
+                        adenine: dataSSE["adenine"][i],
+                        lysine: dataSSE["lysine"][i],
+                    },
+                ]);
+            }
+        }
+
+        console.log(initialPopulation)
+
+    }, [dataSSE, days]);
+
+    return { realtimeData, environment, toggleRunSimulator, setToggleRunSimulator, initialPopulation }
 
 }
 

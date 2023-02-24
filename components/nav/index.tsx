@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSimState } from "../../store/SimProvider";
 import AdenineProducer from "../dashboard/AdenineProducer";
 import AdenineCheater from "../dashboard/AdenineCheater";
@@ -9,8 +9,21 @@ import Media from "../dashboard/Media";
 import Range from "../range";
 
 const Navbar = () => {
-  const { navToggled, setNavToggled, run, days, setDays } = useSimState();
-  console.log(run);
+  const {
+    navToggled,
+    setNavToggled,
+    days,
+    setDays,
+    initialArr,
+    setInitialArr,
+    species,
+  } = useSimState();
+
+  useEffect(() => {
+    const arr = new Array(days * 7);
+    setInitialArr(arr);
+  }, [days]);
+
   return (
     <nav
       className={`flex flex-col h-screen bg-gray-800 text-white transition-all ${
@@ -45,14 +58,16 @@ const Navbar = () => {
         </label>
       </div>
       <div className={`${navToggled ? "px-4" : "px-1"}`}>
-        <Range
-          name="Days"
-          value={days}
-          setValue={setDays}
-          min={1}
-          max={5}
-          step={1}
-        />
+        <div className="px-4">
+          <Range
+            name="Days"
+            value={days}
+            setValue={setDays}
+            min={1}
+            max={5}
+            step={1}
+          />
+        </div>
         <ul className="space-y-6">
           <li className={`${!navToggled && "p-2"}`}>
             <div className={`${!navToggled && "p-4"}`}>

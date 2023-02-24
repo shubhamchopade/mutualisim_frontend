@@ -21,13 +21,8 @@ export const URL =
     : process.env.NEXT_PUBLIC_PROD_API;
 
 export const SimProvider = ({ children }) => {
-  const [toggleRunSimulator, setToggleRunSimulator] = useState(false);
   const [dataSSE, setDataSSE] = useState([]);
-  const [finalData, setFinalData] = useState([]);
-  const [realtimeData, setRealtimeData] = useState([]);
-  const [realtimeGlucose, setRealtimeGlucose] = useState([]);
-  const [realtimeAdenine, setRealtimeAdenine] = useState([]);
-  const [realtimeLysine, setRealtimeLysine] = useState([]);
+
   const [environment, setEnvironment] = useState([
     {
       glucose: 1,
@@ -37,11 +32,15 @@ export const SimProvider = ({ children }) => {
   ]);
   const [closeSSE, setCloseSSE] = useState(false);
 
+  const [initialArr, setInitialArr] = useState([]);
+
+  // Set the initial values for the species
   const [adenineProducer, setAdenineProducer] = useState(10);
   const [adenineCheater, setAdenineCheater] = useState(20);
   const [lysineProducer, setLysineProducer] = useState(10);
   const [lysineCheater, setLysineCheater] = useState(20);
 
+  // Set the initial values for the species dropdown
   const [species, setSpecies] = useState({
     adeop: 2,
     adewt: 2,
@@ -49,33 +48,24 @@ export const SimProvider = ({ children }) => {
     lyswt: 2,
   });
 
+  // Set the initial values for the environment
   const [glucose, setGlucose] = useState(1);
   const [adenine, setAdenine] = useState(1);
   const [lysine, setLysine] = useState(1);
 
-  const [days, setDays] = useState(1);
+  const [days, setDays] = useState(3);
 
   const [navToggled, setNavToggled] = useState(false);
 
+  const [realtimeCount, setRealtimeCount] = useState(0);
+
   const providerValue = {
-    realtimeData,
-    setRealtimeData,
-    realtimeGlucose,
-    setRealtimeGlucose,
-    realtimeAdenine,
-    setRealtimeAdenine,
     environment,
     setEnvironment,
-    realtimeLysine,
-    setRealtimeLysine,
-    toggleRunSimulator,
-    setToggleRunSimulator,
     closeSSE,
     setCloseSSE,
     dataSSE,
     setDataSSE,
-    finalData,
-    setFinalData,
     glucose,
     setGlucose,
     adenine,
@@ -96,6 +86,10 @@ export const SimProvider = ({ children }) => {
     setSpecies,
     days,
     setDays,
+    initialArr,
+    setInitialArr,
+    realtimeCount,
+    setRealtimeCount,
   };
 
   return (

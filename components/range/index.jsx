@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import { useSimState } from "../../store/SimProvider";
 
 const Range = (props) => {
