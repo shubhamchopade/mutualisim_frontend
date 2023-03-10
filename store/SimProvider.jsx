@@ -14,14 +14,15 @@ export const useSimState = () => {
   return state;
 };
 
+const env = process.env.NODE_ENV || "development";
+export const URL =
+  env == "development"
+    ? process.env.NEXT_PUBLIC_DEV_API
+    : process.env.NEXT_PUBLIC_PROD_API;
+
 export const SimProvider = ({ children }) => {
-  const [toggleRunSimulator, setToggleRunSimulator] = useState(false);
   const [dataSSE, setDataSSE] = useState([]);
-  const [finalData, setFinalData] = useState([]);
-  const [realtimeData, setRealtimeData] = useState([]);
-  const [realtimeGlucose, setRealtimeGlucose] = useState([]);
-  const [realtimeAdenine, setRealtimeAdenine] = useState([]);
-  const [realtimeLysine, setRealtimeLysine] = useState([]);
+
   const [environment, setEnvironment] = useState([
     {
       glucose: 1,
@@ -31,61 +32,40 @@ export const SimProvider = ({ children }) => {
   ]);
   const [closeSSE, setCloseSSE] = useState(false);
 
-  const [population, setPopulation] = useState({
-    adeop: 1,
-    lysop: 1,
-    adewt: 1,
-    lyswt: 1,
-    n_adeop: 10,
-    n_lysop: 10,
-    n_adewt: 10,
-    n_lyswt: 10,
-  });
-  const [media, setMedia] = useState({
-    glucose: 1,
-    adenine: 1,
-    lysine: 1,
-  });
+  const [initialArr, setInitialArr] = useState([]);
 
+  // Set the initial values for the species
   const [adenineProducer, setAdenineProducer] = useState(10);
-  const [adenineCheater, setAdenineCheater] = useState(10);
+  const [adenineCheater, setAdenineCheater] = useState(20);
   const [lysineProducer, setLysineProducer] = useState(10);
-  const [lysineCheater, setLysineCheater] = useState(10);
+  const [lysineCheater, setLysineCheater] = useState(20);
 
+  // Set the initial values for the species dropdown
+  const [species, setSpecies] = useState({
+    adeop: 2,
+    adewt: 2,
+    lysop: 2,
+    lyswt: 2,
+  });
+
+  // Set the initial values for the environment
   const [glucose, setGlucose] = useState(1);
   const [adenine, setAdenine] = useState(1);
   const [lysine, setLysine] = useState(1);
 
-  const [run, setRun] = useState({
-    transfer_p: 0.1,
-    days: 3,
-  });
+  const [days, setDays] = useState(3);
+
+  const [navToggled, setNavToggled] = useState(false);
+
+  const [realtimeCount, setRealtimeCount] = useState(0);
 
   const providerValue = {
-    realtimeData,
-    setRealtimeData,
-    realtimeGlucose,
-    setRealtimeGlucose,
-    realtimeAdenine,
-    setRealtimeAdenine,
     environment,
     setEnvironment,
-    media,
-    setMedia,
-    realtimeLysine,
-    setRealtimeLysine,
-    toggleRunSimulator,
-    setToggleRunSimulator,
     closeSSE,
     setCloseSSE,
-    population,
-    setPopulation,
     dataSSE,
     setDataSSE,
-    finalData,
-    setFinalData,
-    run,
-    setRun,
     glucose,
     setGlucose,
     adenine,
@@ -100,6 +80,16 @@ export const SimProvider = ({ children }) => {
     setLysineProducer,
     lysineCheater,
     setLysineCheater,
+    navToggled,
+    setNavToggled,
+    species,
+    setSpecies,
+    days,
+    setDays,
+    initialArr,
+    setInitialArr,
+    realtimeCount,
+    setRealtimeCount,
   };
 
   return (
