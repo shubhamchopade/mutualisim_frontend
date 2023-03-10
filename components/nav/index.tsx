@@ -26,7 +26,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`flex flex-col h-screen bg-gray-800 text-white transition-all ${
+      className={`flex flex-col h-screen overflow-y-auto bg-gray-800 text-white transition-all ${
         navToggled ? "w-44" : "w-80"
       }`}
     >
@@ -57,7 +57,7 @@ const Navbar = () => {
           </svg>
         </label>
       </div>
-      <div className={`${navToggled ? "px-4" : "px-1"}`}>
+      <div className={` ${navToggled ? "px-4" : "px-1"}`}>
         <div className="px-4">
           <Range
             name="Days"
