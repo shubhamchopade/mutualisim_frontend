@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { URL, useSimState } from "../../store/SimProvider";
 import { TRANSFER_P_RATE } from "../dashboard/constants";
 
+const env = process.env.NODE_ENV || "development";
+
 function useStartSimulator() {
     const [toggleRunSimulator, setToggleRunSimulator] = useState(false)
     const [realtimeData, setRealtimeData] = useState([]);
@@ -23,7 +25,9 @@ function useStartSimulator() {
         days, realtimeCount, setRealtimeCount
     } = useSimState();
 
-    const initPop = new Array((days * 7) - 3);
+    const dataPoints = env == "development" ? days * 7 : days * 14;
+    console.log(dataPoints)
+    const initPop = new Array(dataPoints);
     const [initialPopulation, setInitialPopulation] = useState(initPop);
 
     const media = {
@@ -44,7 +48,6 @@ function useStartSimulator() {
     };
 
     useEffect(() => {
-        const initPop = new Array((days * 7) - 3);
         setInitialPopulation(initPop);
     }, [days]);
 
