@@ -26,7 +26,6 @@ function useStartSimulator() {
     } = useSimState();
 
     const dataPoints = env == "development" ? days * 7 : days * 14;
-    console.log(dataPoints)
     const initPop = new Array(dataPoints);
     const [initialPopulation, setInitialPopulation] = useState(initPop);
 
@@ -178,7 +177,7 @@ function useStartSimulator() {
 
     }, [dataSSE, days]);
 
-    return { realtimeData, environment, toggleRunSimulator, setToggleRunSimulator, initialPopulation }
+    return { realtimeData, setRealtimeData, setDataSSE, initialPopulation, setInitialPopulation, environment, toggleRunSimulator, setToggleRunSimulator, initialPopulation }
 
 }
 

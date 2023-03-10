@@ -25,7 +25,7 @@ export const SimProvider = ({ children }) => {
 
   const [environment, setEnvironment] = useState([
     {
-      glucose: 1,
+      glucose: 2,
       adenine: 1,
       lysine: 1,
     },
