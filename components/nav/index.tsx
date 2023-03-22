@@ -26,9 +26,8 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`flex flex-col h-screen overflow-y-auto bg-gray-800 text-white transition-all ${
-        navToggled ? "w-44" : "w-80"
-      }`}
+      className={`flex flex-col h-screen overflow-y-auto bg-gray-800 text-white transition-all ${navToggled ? "w-44" : "w-80"
+        }`}
     >
       <div className="px-4 py-6 flex justify-between items-center">
         <h3 className="text-lg font-medium">Mutualism Simulator</h3>
