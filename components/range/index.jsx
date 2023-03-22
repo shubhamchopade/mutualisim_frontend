@@ -6,10 +6,10 @@ const Range = (props) => {
   const { navToggled } = useSimState();
   useSimState();
   return (
-    <div className="flex justify-between my-2 ml-2 max-w-xl">
+    <div className="flex justify-between items-center my-2 ml-2 max-w-xl">
       <div className={`${navToggled ? "w-24" : "w-44"}`}>
         <label
-          className={`label-text ${navToggled ? "w-24" : "w-36"}`}
+          className={`label-text  ${navToggled ? "w-24" : "w-36"}`}
           htmlFor={props.name}
         >
           {props.name}
@@ -20,7 +20,9 @@ const Range = (props) => {
           min={min}
           max={max}
           value={value}
-          className={`range range-${color} w-32 ${navToggled && "hidden"}`}
+          className={`range range-xs range-${color} w-32 ${
+            navToggled && "hidden"
+          }`}
           step={step}
           onChange={(e) => setValue(Number(e.target.value))}
         />
