@@ -13,7 +13,10 @@ const LysineCheater = () => {
   return (
     <div className="flex items-center justify-between max-w-sm">
       <div className={`dropdown dropdown-hover ${navToggled && "hidden"}`}>
-        <label tabIndex={0} className="btn m-1">
+        <label
+          tabIndex={0}
+          className="btn btn-xs btn-square btn-secondary  m-1"
+        >
           {species.lyswt}
         </label>
         <ul
