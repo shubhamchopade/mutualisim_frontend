@@ -32,34 +32,11 @@ const Navbar = () => {
       <div className="px-4 py-6 flex justify-between items-center">
         <h3 className="text-lg font-medium">Mutualism Simulator</h3>
 
-        <label className="btn btn-circle swap swap-rotate">
-          <input onClick={() => setNavToggled(!navToggled)} type="checkbox" />
-
-          <svg
-            className="swap-on fill-current"
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 512 512"
-          >
-            <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
-          </svg>
-
-          <svg
-            className="swap-off fill-current"
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 512 512"
-          >
-            <polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
-          </svg>
-        </label>
       </div>
       <div className={` ${navToggled ? "px-4" : "px-1"}`}>
-        <div className="px-4">
+        <div className="px-4 card shadow-lg bg-secondary mb-4">
+          <span className="label-text">Days</span>
           <Range
-            name="Days"
             value={days}
             setValue={setDays}
             min={1}
@@ -68,7 +45,7 @@ const Navbar = () => {
           />
         </div>
         <ul className="space-y-6">
-          <li className={`${!navToggled && "p-2"}`}>
+          <li className={`card shadow-lg bg-secondary ${!navToggled && "p-2"}`}>
             <div className={`${!navToggled && "p-4"}`}>
               <div className={``}>
                 <p className="font-bold">POPULATION</p>
@@ -79,13 +56,16 @@ const Navbar = () => {
 
               <div className="pt-4 w-76">
                 <AdenineProducer />
+                <div className="border-b border-b-gray-700" />
                 <AdenineCheater />
+                <div className="border-b border-b-gray-700" />
                 <LysineProducer />
+                <div className="border-b border-b-gray-700" />
                 <LysineCheater />
               </div>
             </div>
           </li>
-          <li className={`${!navToggled && "p-2"}`}>
+          <li className={`card shadow-lg bg-secondary ${!navToggled && "p-2"}`}>
             <div className={`${!navToggled && "p-4"}`}>
               <div className={``}>
                 <p className="font-bold">MEDIA</p>

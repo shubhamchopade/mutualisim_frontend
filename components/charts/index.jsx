@@ -3,7 +3,7 @@ import styles from "../../styles/Home.module.css";
 import { Charts, GCharts } from "./Charts";
 import useStartSimulator from "./useStartSimulator";
 
-const Home = () => {
+const Page = () => {
   const {
     realtimeData,
     setRealtimeData,
@@ -54,4 +54,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Page;

@@ -5,8 +5,8 @@ const Media = () => {
   const { adenine, glucose, lysine, setAdenine, setGlucose, setLysine } =
     useSimState();
   return (
-    <div>
-      <div className="pt-8 max-w-sm">
+    <div className="">
+      <div className="pt-2 max-w-sm">
         <Range
           name="(provides food source) glucose"
           value={glucose}
@@ -16,6 +16,7 @@ const Media = () => {
           step={1}
           color="primary"
         />
+        <div className="border-b border-b-gray-700" />
         <Range
           name="(limiting nutrient) adenine"
           value={adenine}
@@ -25,6 +26,7 @@ const Media = () => {
           step={1}
           color="secondary"
         />
+        <div className="border-b border-b-gray-700" />
         <Range
           name="limiting nutrient) lysine"
           value={lysine}
@@ -34,6 +36,7 @@ const Media = () => {
           step={1}
           color="accent"
         />
+        <div className="border-b border-b-gray-700" />
       </div>
     </div>
   );

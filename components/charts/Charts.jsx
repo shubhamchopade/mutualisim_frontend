@@ -15,7 +15,7 @@ export const Charts = (props) => {
   const { realtimeData, initialPopulation } = useStartSimulator();
   const dataKey = Object.keys(realtimeData[0] || []);
   return (
-    <ResponsiveContainer width="99%" aspect={3}>
+    <ResponsiveContainer width="99%" aspect={2} className={"w-full"}>
       <LineChart data={initialPopulation} className="mx-auto mt-4">
         {dataKey.map((d, i) => (
           <Line
@@ -26,7 +26,7 @@ export const Charts = (props) => {
             dot={false}
           />
         ))}
-        <CartesianGrid stroke="#262525" strokeDasharray="5 5" />
+        {/* <CartesianGrid /> */}
         <XAxis />
         <YAxis domain={[0, 500]} />
         <Legend />
@@ -38,12 +38,12 @@ export const Charts = (props) => {
 export const GCharts = (props) => {
   const dataKey = props.environment || [];
   return (
-    <ResponsiveContainer width="99%" aspect={4}>
-      <LineChart width={1000} height={200} data={dataKey} className="mx-auto">
+    <ResponsiveContainer width="99%" aspect={3}>
+      <LineChart data={dataKey} className="mx-auto">
         <Line type="monotone" dataKey="glucose" stroke="#8884d8" dot={false} />
         <Line type="monotone" dataKey="adenine" stroke="#3384d8" dot={false} />
         <Line type="monotone" dataKey="lysine" stroke="#37b7b9" dot={false} />
-        <CartesianGrid stroke="#262525" strokeDasharray="5 5" />
+        {/* <CartesianGrid /> */}
         <XAxis />
         <YAxis />
         <Legend />
