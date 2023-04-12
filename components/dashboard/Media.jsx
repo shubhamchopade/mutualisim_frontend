@@ -8,7 +8,7 @@ const Media = () => {
     <div className="">
       <div className="pt-2 max-w-sm">
         <Range
-          name="(provides food source) glucose"
+          name="(food source) glucose"
           value={glucose}
           setValue={setGlucose}
           min={0}

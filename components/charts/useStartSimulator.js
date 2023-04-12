@@ -25,7 +25,7 @@ function useStartSimulator() {
         days, realtimeCount, setRealtimeCount
     } = useSimState();
 
-    const dataPoints = env == "development" ? days * 7 : days * 14;
+    const dataPoints = days * 26;
     const initPop = new Array(dataPoints);
     const [initialPopulation, setInitialPopulation] = useState(initPop);
 
