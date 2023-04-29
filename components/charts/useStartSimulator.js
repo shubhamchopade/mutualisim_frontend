@@ -5,8 +5,8 @@ import { TRANSFER_P_RATE } from "../dashboard/constants";
 
 const env = process.env.NODE_ENV || "development";
 
-function useStartSimulator() {
-    const [toggleRunSimulator, setToggleRunSimulator] = useState(false)
+function useStartSimulator(toggleRunSimulator, setToggleRunSimulator) {
+    // const [toggleRunSimulator, setToggleRunSimulator] = useState(false)
     const [realtimeData, setRealtimeData] = useState([]);
     const {
         environment,
@@ -22,7 +22,7 @@ function useStartSimulator() {
         lysineProducer,
         lysineCheater,
         species,
-        days, realtimeCount, setRealtimeCount
+        days, realtimeCount, setRealtimeCount, setFinalResponse
     } = useSimState();
 
     const dataPoints = days * 26;
@@ -99,7 +99,10 @@ function useStartSimulator() {
         if (toggleRunSimulator) {
             axios
                 .post(`${URL}/run/${sessionid}`, payload)
-                .then(() => setToggleRunSimulator(!toggleRunSimulator));
+                .then((res) => {
+                    setFinalResponse(res.data.responseData)
+                    setToggleRunSimulator(!toggleRunSimulator)
+                })
         }
     }, [toggleRunSimulator]);
 
@@ -173,7 +176,7 @@ function useStartSimulator() {
             }
         }
 
-        console.log(initialPopulation)
+        // console.log(initialPopulation)
 
     }, [dataSSE, days]);
 

@@ -14,8 +14,9 @@ import { getRandomColor } from "../../utils/colors";
 export const Charts = (props) => {
   const { realtimeData, initialPopulation } = useStartSimulator();
   const dataKey = Object.keys(realtimeData[0] || []);
+  console.log(realtimeData);
   return (
-    <ResponsiveContainer width="99%" aspect={2} className={"w-full"}>
+    <ResponsiveContainer width="99%" aspect={3} className={"w-full"}>
       <LineChart data={initialPopulation} className="mx-auto mt-4">
         {dataKey.map((d, i) => (
           <Line

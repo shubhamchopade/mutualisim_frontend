@@ -7,8 +7,14 @@ import {
   SPECIES_RANGE_STEP,
 } from "./constants";
 const AdenineCheater = () => {
-  const { adenineCheater, setAdenineCheater, navToggled, species, setSpecies } =
-    useSimState();
+  const {
+    adenineCheater,
+    setAdenineCheater,
+    navToggled,
+    species,
+    setSpecies,
+    toggleRunSimulator,
+  } = useSimState();
   return (
     <div className="flex items-center justify-between  max-w-sm">
       <div className={`dropdown dropdown-hover ${navToggled && "hidden"}`}>
@@ -28,6 +34,7 @@ const AdenineCheater = () => {
         </ul>
       </div>
       <Range
+        disabled={toggleRunSimulator}
         name="Cheater that takes adenine"
         value={adenineCheater}
         setValue={setAdenineCheater}

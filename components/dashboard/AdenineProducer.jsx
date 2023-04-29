@@ -13,6 +13,7 @@ const AdenineProducer = () => {
     navToggled,
     species,
     setSpecies,
+    toggleRunSimulator,
   } = useSimState();
   return (
     <div>
@@ -43,6 +44,7 @@ const AdenineProducer = () => {
           </ul>
         </div>
         <Range
+          disabled={toggleRunSimulator}
           name="Adenine Overproducer"
           value={adenineProducer}
           setValue={setAdenineProducer}

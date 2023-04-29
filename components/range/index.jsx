@@ -2,7 +2,7 @@ import React from "react";
 import { useSimState } from "../../store/SimProvider";
 
 const Range = (props) => {
-  const { value, setValue, min, max, step, color } = props;
+  const { value, setValue, min, max, step, color, disabled } = props;
   const { navToggled } = useSimState();
   useSimState();
   return (
@@ -15,6 +15,7 @@ const Range = (props) => {
           {props.name}
         </label>
         <input
+          disabled={disabled}
           name={props.name}
           type="range"
           min={min}
@@ -22,7 +23,9 @@ const Range = (props) => {
           value={value}
           className={`range range-xs range-${color} w-32 ${
             navToggled && "hidden"
-          }`}
+          }
+          ${disabled && "opacity-50 cursor-not-allowed"}
+          `}
           step={step}
           onChange={(e) => setValue(Number(e.target.value))}
         />

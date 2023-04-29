@@ -25,7 +25,7 @@ export const SimProvider = ({ children }) => {
 
   const [environment, setEnvironment] = useState([
     {
-      glucose: 2,
+      glucose: 3,
       adenine: 1,
       lysine: 1,
     },
@@ -53,11 +53,16 @@ export const SimProvider = ({ children }) => {
   const [adenine, setAdenine] = useState(1);
   const [lysine, setLysine] = useState(1);
 
-  const [days, setDays] = useState(3);
+  const [days, setDays] = useState(2);
 
   const [navToggled, setNavToggled] = useState(false);
 
   const [realtimeCount, setRealtimeCount] = useState(0);
+
+  const [toggleRunSimulator, setToggleRunSimulator] = useState(false);
+
+  // finalResponse
+  const [finalResponse, setFinalResponse] = useState([]);
 
   const providerValue = {
     environment,
@@ -90,6 +95,10 @@ export const SimProvider = ({ children }) => {
     setInitialArr,
     realtimeCount,
     setRealtimeCount,
+    toggleRunSimulator,
+    setToggleRunSimulator,
+    finalResponse,
+    setFinalResponse,
   };
 
   return (

@@ -7,8 +7,14 @@ import {
   SPECIES_RANGE_STEP,
 } from "./constants";
 const LysineProducer = () => {
-  const { lysineProducer, setLysineProducer, navToggled, species, setSpecies } =
-    useSimState();
+  const {
+    lysineProducer,
+    setLysineProducer,
+    navToggled,
+    species,
+    setSpecies,
+    toggleRunSimulator,
+  } = useSimState();
   return (
     <div className="flex items-center justify-between  max-w-sm">
       <div className={`dropdown dropdown-hover ${navToggled && "hidden"}`}>
@@ -37,6 +43,7 @@ const LysineProducer = () => {
         </ul>
       </div>
       <Range
+        disabled={toggleRunSimulator}
         name="Lysine Overproducer"
         value={lysineProducer}
         setValue={setLysineProducer}

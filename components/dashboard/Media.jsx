@@ -2,12 +2,20 @@ import React from "react";
 import { useSimState } from "../../store/SimProvider";
 import Range from "../range";
 const Media = () => {
-  const { adenine, glucose, lysine, setAdenine, setGlucose, setLysine } =
-    useSimState();
+  const {
+    adenine,
+    glucose,
+    lysine,
+    setAdenine,
+    setGlucose,
+    setLysine,
+    toggleRunSimulator,
+  } = useSimState();
   return (
     <div className="">
       <div className="pt-2 max-w-sm">
         <Range
+          disabled={toggleRunSimulator}
           name="(food source) glucose"
           value={glucose}
           setValue={setGlucose}
@@ -18,6 +26,7 @@ const Media = () => {
         />
         <div className="border-b border-b-gray-700" />
         <Range
+          disabled={toggleRunSimulator}
           name="(limiting nutrient) adenine"
           value={adenine}
           setValue={setAdenine}
@@ -28,6 +37,7 @@ const Media = () => {
         />
         <div className="border-b border-b-gray-700" />
         <Range
+          disabled={toggleRunSimulator}
           name="limiting nutrient) lysine"
           value={lysine}
           setValue={setLysine}

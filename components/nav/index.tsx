@@ -17,6 +17,7 @@ const Navbar = () => {
     initialArr,
     setInitialArr,
     species,
+    toggleRunSimulator,
   } = useSimState();
 
   useEffect(() => {
@@ -26,8 +27,8 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`flex flex-col  overflow-y-auto bg-gray-800 text-white transition-all ${
-        navToggled ? "w-44" : "w-80"
+      className={`flex flex-col  overflow-y-auto bg-gray-800 text-white transition-all w-80 ${
+        toggleRunSimulator && "disabled"
       }`}
     >
       <div className="px-4 py-6 flex justify-between items-center">
@@ -35,10 +36,6 @@ const Navbar = () => {
         <Link href={"/"}>← Home</Link>
       </div>
       <div className={` ${navToggled ? "px-4" : "px-1"}`}>
-        <div className="px-4 card shadow-lg bg-secondary mb-4">
-          <span className="label-text">Days</span>
-          <Range value={days} setValue={setDays} min={1} max={5} step={1} />
-        </div>
         <ul className="space-y-6">
           <li className={`card shadow-lg bg-secondary ${!navToggled && "p-2"}`}>
             <div className={`${!navToggled && "p-4"}`}>
@@ -79,6 +76,18 @@ const Navbar = () => {
             </div>
           </li>
         </ul>
+        <div className="px-4 card shadow-lg bg-secondary my-4 p-6">
+          <span className="font-bold">Days</span>
+          <p>Number of days you want the community to interact</p>
+          <Range
+            disabled={toggleRunSimulator}
+            value={days}
+            setValue={setDays}
+            min={1}
+            max={5}
+            step={1}
+          />
+        </div>
       </div>
     </nav>
   );

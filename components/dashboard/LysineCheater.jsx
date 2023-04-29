@@ -8,8 +8,14 @@ import {
 } from "./constants";
 
 const LysineCheater = () => {
-  const { lysineCheater, setLysineCheater, navToggled, species, setSpecies } =
-    useSimState();
+  const {
+    lysineCheater,
+    setLysineCheater,
+    navToggled,
+    species,
+    setSpecies,
+    toggleRunSimulator,
+  } = useSimState();
   return (
     <div className="flex items-center justify-between max-w-sm">
       <div className={`dropdown dropdown-hover ${navToggled && "hidden"}`}>
@@ -32,6 +38,7 @@ const LysineCheater = () => {
         </ul>
       </div>
       <Range
+        disabled={toggleRunSimulator}
         name="Cheater that takes lysine"
         value={lysineCheater}
         setValue={setLysineCheater}
