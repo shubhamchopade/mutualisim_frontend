@@ -153,7 +153,7 @@ function useStartSimulator(toggleRunSimulator, setToggleRunSimulator) {
         if (realtimeCount === 0) {
             setInitialPopulation(prev => prev.fill(initialDistribution))
         } else {
-            if (opObj['adeop1'] == 1 || opObj['lysop1'] == 1 || opObj['adeop'] == 1) {
+            if (opObj['adeop1'] == 0 || opObj['lysop1'] == 0 || opObj['adeop'] == 0) {
                 setInitialPopulation(prev => prev.map((p, i) => i === realtimeCount ? realtimeData[realtimeData.length - 2] : p))
             } else {
 
@@ -163,7 +163,7 @@ function useStartSimulator(toggleRunSimulator, setToggleRunSimulator) {
 
 
 
-        if (dataSSE["adenine"]) {
+        if (dataSSE["adenine"] || dataSSE["glucose"] || dataSSE["lysine"]) {
             for (let i = 0; i < dataSSE["adenine"].length; i++) {
                 setEnvironment([
                     ...environment,

@@ -1,34 +1,123 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# AWS EC2 instance setup
 
-## Getting Started
+AMI - Amazon Linux 2
 
-First, run the development server:
+## **Backend**
+
+### _Installation_
+
+Install Python3
 
 ```bash
-npm run dev
-# or
-yarn dev
+sudo yum install python3 pip3
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Create Virtualenv
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+sudo pip3 install virtualenv
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Install dependencies by removing versions in requirements.txt - numpy, ipython..
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```bash
+source venv/bin/activate
 
-## Learn More
+pip install -r requirements_new.txt
+```
 
-To learn more about Next.js, take a look at the following resources:
+Verify if it is running
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+gunicorn --preload --workers 4 --threads 100 main:app --timeout 600
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### _Deployment_
 
-## Deploy on Vercel
+Install nginx
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+sudo amazon-linux-extras install nginx1 -y
+sudo systemctl enable nginx
+sudo systemctl start nginx
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Update the timeout blocks in server in nginx.conf
+
+```bash
+server {
+    # ... here goes your proxy configuration
+
+    # Avoid 504 HTTP Timeout Errors
+    proxy_connect_timeout       605;
+    proxy_send_timeout          605;
+    proxy_read_timeout          605;
+    send_timeout                605;
+    keepalive_timeout           605;
+}
+```
+
+- Create sites-enabled and sites-available directories
+
+```bash
+# Soft link both the directories
+
+cd sites-enabled
+sudo ln -s ../sites-available/foo.conf .
+ls -l
+```
+
+- Create files with route names
+
+```bash
+# verify the configuration
+sudo nginx -t
+
+# reload nginx service
+sudo nginx -s reload
+```
+
+Install certbot
+
+```jsx
+sudo wget -r --no-parent -A 'epel-release-*.rpm' https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/
+sudo rpm -Uvh dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-*.rpm
+sudo yum-config-manager --enable epel*
+sudo yum install -y certbot
+sudo yum install -y python-certbot-nginx
+```
+
+Add a cron job to renew the certificate
+
+```jsx
+SLEEPTIME=$(awk 'BEGIN{srand(); print int(rand()*(3600+1))}'); echo "0 0,12 * * * root sleep $SLEEPTIME && certbot renew -q" | sudo tee -a /etc/crontab > /dev/null
+```
+
+Run using systemd process manager
+
+1. Create a `mutual.service` file in `/etc/systemd/system`
+2. Start the service
+
+## **Frontend**
+
+Install Nodejs v14
+
+```bash
+sudo yum update -y
+sudo yum install -y gcc gcc-c++ make openssl-devel git
+curl --silent --location https://rpm.nodesource.com/setup_14.x | sudo bash -
+sudo yum install -y nodejs
+
+```
+
+Install Yarn
+
+```bash
+npm install --global yarn
+```
+
+Install process manager pm2
+
+```bash
+sudo npm install pm2@latest -g
+```

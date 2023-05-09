@@ -25,6 +25,9 @@ const AdenineCheater = () => {
           tabIndex={0}
           className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
         >
+          <li onClick={() => setSpecies({ ...species, adewt: 0 })}>
+            <a>0</a>
+          </li>
           <li onClick={() => setSpecies({ ...species, adewt: 1 })}>
             <a>1</a>
           </li>
